@@ -1,0 +1,18 @@
+<package>
+    <name>imuraw_gy88</name>
+    <version>0.0.1</version>
+    <description>
+        This package reads raw {accelero/gryo/magno}meter data from the GY88 and publishes it
+    </description>
+    <maintainer email="alainh@seas.upenn.edu">Alain Hernandez</maintainer>
+    <license>BSD</license>
+
+    <author>Alain Hernandez</author>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <run_depend>rospy</run_depend>
+    <run_depend>sensor_msgs</run_depend>
+    <run_depend>geometry_msgs</run_depend>
+    <run_depend>std_msgs</run_depend>
+</package>
