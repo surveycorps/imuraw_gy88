@@ -30,8 +30,8 @@ class IMU :
     REG_ACCEL_X_LOW = 0x3c
     REG_ACCEL_Y_HI = 0x3d
     REG_ACCEL_Y_LOW = 0x3e
-    REG_ACCEL_Z_HI = 0x3f
-    REG_ACCEL_Z_LOW = 0x40
+    REG_ACCEL_Y_HI = 0x3f
+    REG_ACCEL_Y_LOW = 0x40
 
     REG_GYRO_X_HI = 0x43
     REG_GYRO_X_LOW = 0x44
@@ -125,10 +125,8 @@ class IMU :
 
 def rawIMU():
         raw_imu = IMU()
-	
         pub_imu  = rospy.Publisher('imu/data_raw', sensor_msgs.msg.Imu, queue_size = 10)
         pub_magno = rospy.Publisher('imu/mag', Vector3, queue_size = 10)
-	rospy.init_node('gy88_raw', anonymous=True)
         r = rospy.Rate(10) # 10 Hz
 
         while not rospy.is_shutdown():
@@ -137,22 +135,24 @@ def rawIMU():
             magnometer = Vector3()
             header = Header()
 
-            angular_vel.x = raw_imu.getRawGyroX()
-            angular_vel.y = raw_imu.getRawGyroY()
-            angular_vel.z = raw_imu.getRawGyroZ()
-            linear_accel.x = raw_imu.getRawAccelX()
-            linear_accel.y = raw_imu.getRawAccelY()
-            linear_accel.z = raw_imu.getRawAccelZ()
-            magnometer.x = raw_imu.getRawMagX() 
-            magnometer.y = raw_imu.getRawMagY()
-            magnometer.z = raw_imu.getRawMagZ()
+            angular_vel.x = IMU.getRawGyroX()
+            angular_vel.y = IMU.getRawGyroY()
+            angular_vel.z = IMU.getRawGyroZ()
+            linear_accel.x = IMU.getRawAccelX()
+            linear_accel.y = IMU.getRawAccelY()
+            linear_accel.z = IMU.getRawAccelZ()
+            magnometer.x = IMU.getRawMagX() 
+            magnometer.y = IMU.getRawMagY()
+            magnometer.z = IMU.getRawMagZ()
 
             # Fill header and for timestamps
-	    header.stamp = rospy.Time.now()
-	    header.frame_id = 'base_link' 
+            rostime = rospy.get_rostime()
+            header.secs = rostime.secs
+            header.nsecs = rostime.nsecs 
+            header.frame_id = 1 # Declare to be the global frame
 
             raw_imu_data = sensor_msgs.msg.Imu()
-            raw_imu_data.angular_velocity = angular_vel
+            raw_imu_data.angular_velocity = angular_velocity
             raw_imu_data.linear_acceleration = linear_accel
             raw_imu_data.header = header
 
