@@ -5,7 +5,7 @@ from Adafruit_I2C import Adafruit_I2C
 import rospy
 import sensor_msgs.msg # IMU data type
 from std_msgs.msg import Header # Header to contain timestamp information
-from geometry_msgs.msg import Vector3 # Standard Vector form for ROS
+from geometry_msgs.msg import Vector3Stamped as Vector3 # Standard Vector form for ROS
 
 import time
 
